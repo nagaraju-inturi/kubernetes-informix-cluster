@@ -24,11 +24,6 @@ spec:
     app: informix
 ---
 #
-# Connection manager servive along with loadbalancer.
-# This service gets external ip address for applications
-# to connect to Informix cluster over the internet.
-#
-#
 # Headless service for Informix Connection Manager statefulset.
 # Headless service with clusterIP set to NULL
 # create DNS records for Informix Connection Manager hosts.
@@ -60,7 +55,7 @@ spec:
     app: cm
 ---
 #
-# Connection manager client servive along with loadbalancer.
+# Connection manager client service along with loadbalancer.
 # This service gets external ip address for applications
 # to connect to Informix cluster over the internet.
 #
@@ -95,10 +90,10 @@ spec:
     app: cm
 ---
 #
-# Statefull Set for Informix cluster.
-# Statefull gets predictible hostnames, and storage is bound
-# to the life of the pods within the statefullsets.
-# Replica count configures the number of Informix Server containers.
+# StatefulSet for Informix cluster.
+# StatefulSet get predictible hostnames,and external storage is bound
+# to the pods within StateFulSets for the life.`
+# Replica count configures number of Informix Server containers.
 #
 apiVersion: apps/v1beta1
 kind: StatefulSet
@@ -113,7 +108,7 @@ spec:
         app: informix
     spec:
       containers:
-      - image: gcr.io/fit-authority-167622/informix:v3
+      - image: gcr.io/fit-authority-167622/informix:v1
         name: informix
         env:
         - name: SSLCONFIG
@@ -163,10 +158,8 @@ spec:
           storage: 10Gi
 ---
 #
-# Statefull Set for Informix connection manager group.
-# Statefull gets predictible hostnames, and storage is bound
-# to the life of the pods within the statefullsets.
-# Replica count configures the number of CM containers.
+# StatefulSet for Informix connection manager group.
+# Replica count configures the number of CM containers/pods.
 #
 apiVersion: apps/v1beta1
 kind: StatefulSet
@@ -181,7 +174,7 @@ spec:
         app: cm
     spec:
       containers:
-      - image: gcr.io/fit-authority-167622/informix_cm:v4
+      - image: gcr.io/fit-authority-167622/informix_cm:v1
         name: cm
         env:
         - name: SSLCONFIG
