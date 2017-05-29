@@ -1,0 +1,222 @@
+#
+# Headless service for Informix cluster statefulset
+# Headless service with clusterIP set to NULL
+# create DNS records for Informix cluster hosts.
+#
+apiVersion: v1
+kind: Service
+metadata:
+  name: informix
+  labels:
+    app: informix
+spec:
+  ports:
+    - port: 60000
+      name: informix
+    - port: 60001
+      name: informixssl
+    - port: 60002
+      name: informixdrda
+  selector:
+    app: informix
+  clusterIP: None
+  selector:
+    app: informix
+---
+#
+# Connection manager servive along with loadbalancer.
+# This service gets external ip address for applications
+# to connect to Informix cluster over the internet.
+#
+#
+# Headless service for Informix Connection Manager statefulset.
+# Headless service with clusterIP set to NULL
+# create DNS records for Informix Connection Manager hosts.
+#
+apiVersion: v1
+kind: Service
+metadata:
+  name: cm
+  labels:
+    app: cm
+spec:
+  ports:
+    - port: 50000
+      name: oltp
+    - port: 50001
+      name: report
+    - port: 50002
+      name: oltpssl
+    - port: 50003
+      name: reportssl
+    - port: 50004
+      name: oltpdrda
+    - port: 50005
+      name: reportdrda
+  selector:
+    app: cm
+  clusterIP: None
+  selector:
+    app: cm
+---
+#
+# Connection manager client servive along with loadbalancer.
+# This service gets external ip address for applications
+# to connect to Informix cluster over the internet.
+#
+apiVersion: v1
+kind: Service
+metadata:
+  name: informix-cm
+  labels:
+    app: cm
+spec:
+  ports:
+  - name: oltp
+    port: 50000
+    targetPort: 50000
+  - name: report
+    port: 50001
+    targetPort: 50001
+  - name: oltpssl
+    port: 50002
+    targetPort: 50002
+  - name: reportssl
+    port: 50003
+    targetPort: 50003
+  - name: oltpdrda
+    port: 50004
+    targetPort: 50004
+  - name: reportdrda
+    port: 50005
+    targetPort: 50005
+  type: LoadBalancer
+  selector:
+    app: cm
+---
+#
+# Statefull Set for Informix cluster.
+# Statefull gets predictible hostnames, and storage is bound
+# to the life of the pods within the statefullsets.
+# Replica count configures the number of Informix Server containers.
+#
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: informix
+spec:
+  serviceName: "informix"
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: informix
+    spec:
+      containers:
+      - image: gcr.io/fit-authority-167622/informix:v3
+        name: informix
+        env:
+        - name: SSLCONFIG
+          value: "true"
+        ports:
+        - containerPort: 60000
+          name: informix
+        - containerPort: 60001
+          name: informixssl
+        - containerPort: 60002
+          name: informixdrda
+        volumeMounts:
+        - name: data
+          mountPath: /opt/ibm/data
+        - name: vsslkeysecret
+          mountPath: /etc/sslkeysecret
+          readOnly: true
+        livenessProbe:
+          exec:
+            command: ["/opt/ibm/chk4live.sh", "/tmp"]
+            #command: ["ls", "/tmp"]
+          initialDelaySeconds: 30
+          timeoutSeconds: 5
+        readinessProbe:
+          exec:
+            #command: ["/opt/ibm/chkinformix.sh", "/tmp"]
+            command: ["ls", "/tmp"]
+          initialDelaySeconds: 30
+          timeoutSeconds: 30
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: data
+      - name: vsslkeysecret
+        secret:
+          secretName: ssl-key-secret
+          defaultMode: 256
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+      annotations:
+        volume.alpha.kubernetes.io/storage-class: anything
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: 10Gi
+---
+#
+# Statefull Set for Informix connection manager group.
+# Statefull gets predictible hostnames, and storage is bound
+# to the life of the pods within the statefullsets.
+# Replica count configures the number of CM containers.
+#
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: cm
+spec:
+  serviceName: "cm"
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: cm
+    spec:
+      containers:
+      - image: gcr.io/fit-authority-167622/informix_cm:v4
+        name: cm
+        env:
+        - name: SSLCONFIG
+          value: "true"
+        ports:
+        - containerPort: 50000
+          name: oltp
+        - containerPort: 50001
+          name: report
+        - containerPort: 50002
+          name: oltpssl
+        - containerPort: 50003
+          name: reportssl
+        - containerPort: 50004
+          name: oltpdrda
+        - containerPort: 50005
+          name: reportdrda
+        volumeMounts:
+        - name: vsslkeysecret
+          mountPath: /etc/sslkeysecret
+          readOnly: true
+        livenessProbe:
+          exec:
+            command: ["/opt/ibm/chk4live.sh", "/tmp"]
+            #command: ["ls", "/tmp"]
+          initialDelaySeconds: 30
+          timeoutSeconds: 5
+        readinessProbe:
+          exec:
+            #command: ["/opt/ibm/chkinformix.sh", "/tmp"]
+            command: ["ls", "/tmp"]
+          initialDelaySeconds: 30
+          timeoutSeconds: 30
+      volumes:
+      - name: vsslkeysecret
+        secret:
+          secretName: ssl-key-secret
+          defaultMode: 256

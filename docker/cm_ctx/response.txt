@@ -1,0 +1,27 @@
+# Mon Apr 04 14:20:49 CDT 2016
+# Replay feature output
+# ---------------------
+# This file was built by the Replay feature of InstallAnywhere.
+# It contains variables that were set by Panels, Consoles or Custom Code.
+
+
+
+#Indicate whether the license agreement been accepted
+#----------------------------------------------------
+LICENSE_ACCEPTED=TRUE
+
+#Installation Location
+#---------------------
+USER_INSTALL_DIR=/opt/ibm/informix
+
+#Choose ClientSDK Features to Install
+#------------------------------------
+CHOSEN_FEATURE_LIST=SDK,SDK-CPP,SDK-CPP-DEMO,SDK-ESQL,SDK-ESQL-DEMO,SDK-ESQL-ACM,SDK-LMI,SDK-ODBC,SDK-ODBC-DEMO,DBA-DBA,GLS,GLS-WEURAM,GLS-EEUR,GLS-JPN,GLS-KOR,GLS-CHN,GLS-OTH
+CHOSEN_INSTALL_FEATURE_LIST=SDK,SDK-CPP,SDK-CPP-DEMO,SDK-ESQL,SDK-ESQL-DEMO,SDK-ESQL-ACM,SDK-LMI,SDK-ODBC,SDK-ODBC-DEMO,DBA-DBA,GLS,GLS-WEURAM,GLS-EEUR,GLS-JPN,GLS-KOR,GLS-CHN,GLS-OTH
+CHOSEN_INSTALL_SET=Custom
+
+#Install
+#-------
+-fileOverwrite_/usr2/gcastr/naga3/uninstall/uninstall_clientsdk/uninstallclientsdk.lax=Yes
+-fileOverwrite_/usr2/gcastr/naga3/uninstall/uninstall_clientsdk/ids_unlink.xsl=Yes
+-fileOverwrite_/usr2/gcastr/naga3/tmp/csdk_chgownergroup.xsl=Yes
