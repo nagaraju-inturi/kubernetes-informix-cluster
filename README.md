@@ -2,12 +2,12 @@
 
 Please look at kubernetes_instructions.pdf file for project instructions.
 
-You need Informix server and Client SDK tar files to build Informix Server and Connection Manager docke images.
+You need Informix server and Client SDK tar files to build Informix Server and Connection Manager docker images.
 
 URL to download Informix Server Developer edition:
 https://www.ibm.com/developerworks/downloads/im/informix/
 
-Copy tar file to kubernetes-informix-cluster/docker/server_ctx/iif.12.10.tar.
+Copy tar file to kubernetes-informix-cluster/docker/server_ctx/iif.12.10.tar
 Note: Make sure to rename target file to iif.12.10.tar. Dockerfile file in server_ctx refer to this file name.
 
 URL to download Informix Client SDK  developer edition:
