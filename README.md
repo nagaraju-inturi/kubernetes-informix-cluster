@@ -16,3 +16,8 @@ https://www-01.ibm.com/marketing/iwm/tnd/preconfig.jsp?id=2013-03-26+02%3A58%3A2
 Copy tar file to kubernetes-informix-cluster/docker/cm_ctx/clientsdk.4.10.tar
 Note: Make sure to rename target file to clientsdk.4.10.tar.  Dockerfile in cm_ctx directory refer to this file name.
 
+
+
+Architecture Diagram:
+
+![alt text](informix_cluster.png "Architecture Diagram")
