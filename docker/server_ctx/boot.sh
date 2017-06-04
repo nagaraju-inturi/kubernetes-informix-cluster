@@ -192,7 +192,7 @@ EOF
 
     sleep 10
     retry=$(expr $retry + 1)
-    if [ $retry -eq 10 ]
+    if [ $retry -eq 30 ]
     then
        printf "ERROR: wait4peer() Timed-out waiting for peer server informix0 to be On-Line. \n" >> $MAILBODY
        break
