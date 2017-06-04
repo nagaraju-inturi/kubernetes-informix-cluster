@@ -286,6 +286,7 @@ EOF"
                else
                    sleep 30
                    wait4peer
+                   sleep 30
                    sh -x /opt/ibm/clone.sh
                    wait4online
 #                   if [[ "$HOSTIDX" -eq 1 ]]; then

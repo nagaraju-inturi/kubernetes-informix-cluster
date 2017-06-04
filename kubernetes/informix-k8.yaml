@@ -130,7 +130,7 @@ spec:
           exec:
             command: ["/opt/ibm/chk4live.sh", "/tmp"]
             #command: ["ls", "/tmp"]
-          initialDelaySeconds: 30
+          initialDelaySeconds: 300
           timeoutSeconds: 5
         readinessProbe:
           exec:
