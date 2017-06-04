@@ -20,8 +20,6 @@ spec:
   selector:
     app: informix
   clusterIP: None
-  selector:
-    app: informix
 ---
 #
 # Headless service for Informix Connection Manager statefulset.
@@ -51,8 +49,6 @@ spec:
   selector:
     app: cm
   clusterIP: None
-  selector:
-    app: cm
 ---
 #
 # Connection manager client service along with loadbalancer.
