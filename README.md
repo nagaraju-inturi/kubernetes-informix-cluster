@@ -1,6 +1,10 @@
 # kubernetes-informix-cluster
 
-Please look at kubernetes_instructions.pdf file for project instructions.
+FOR GOOGLE CLOUD PLATFORM:
+Please look at kubernetes_instructions_gcp.pdf file for project instructions.
+
+FOR AMAZON AWS PLATFORM USING KOPS:
+Please look at kubernetes_instructions_aws.pdf file for project instructions.
 
 You need Informix server and Client SDK tar files to build Informix Server and Connection Manager docker images.
 
