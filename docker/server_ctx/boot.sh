@@ -298,19 +298,7 @@ EOF"
                    tail -f  ${DATA_ROOT}/log/$HA_ALIAS.log
                fi
             else
-                #set timeout to 5 seconds so that oncheck checks status on disk quickly
-                export INFORMIXCONTIME=5 
-                #oncheck -pr|grep "DR Last Mode Change"|grep "Secondary mode"
-                oncheck -pr|grep "DR Last Mode Change"|grep "Primary"
-                oncheck_state=$?
-                if [[ $oncheck_state -eq 1 ]]; then  #secondary server, simply restart
-                    echo "${sn} start: Starting Informix secondary server Instance ..."
-                    export INFORMIXCONTIME=60  # reset INFORMIXCONTIME
-                    su informix -c "${INFORMIXDIR}/bin/oninit -vy" 
-                else
-                    echo "${sn} ACTION REQUIRED: Old primary server cannot be restarted automatically."
-                    echo "${sn} Check and restart server as a secondary server if cluster already has primary server."
-                fi
+                su informix -c "${INFORMIXDIR}/bin/oninit -vy" 
                 tail -f  ${DATA_ROOT}/log/$HA_ALIAS.log
             fi
             echo "${sn} start: done"

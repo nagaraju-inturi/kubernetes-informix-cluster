@@ -74,7 +74,8 @@ export TERM=xterm
    echo "report_drda drsoctcp $HOSTNM 50005" >>${INFORMIXDIR}/etc/sqlhosts
 
    sed -i "s/^NAME.*/NAME   $CM_NAME /g" ${INFORMIXDIR}/etc/cmsm_demo.cfg
-   sed -i "s/^  FOC.*/  FOC  ORDER=ENABLED  PRIORITY=$CM_PRI /g" ${INFORMIXDIR}/etc/cmsm_demo.cfg
+   #sed -i "s/^  FOC.*/  FOC  ORDER=ENABLED  PRIORITY=$CM_PRI /g" ${INFORMIXDIR}/etc/cmsm_demo.cfg
+   sed -i "s/^  FOC.*/  FOC  ORDER=DISABLED  PRIORITY=$CM_PRI /g" ${INFORMIXDIR}/etc/cmsm_demo.cfg
    if [ $SSLCONFIG = "true" ]
    then
        cp /etc/sslkeysecret/ssl-kdb $INFORMIXDIR/etc/client.kdb
