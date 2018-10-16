@@ -108,7 +108,7 @@ spec:
         name: informix
         env:
         - name: SSLCONFIG
-          value: "true"
+          value: "false"
         ports:
         - containerPort: 60000
           name: informix
@@ -174,7 +174,7 @@ spec:
         name: cm
         env:
         - name: SSLCONFIG
-          value: "true"
+          value: "false"
         ports:
         - containerPort: 50000
           name: oltp
