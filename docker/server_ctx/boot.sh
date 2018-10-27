@@ -298,6 +298,9 @@ EOF"
                    tail -f  ${DATA_ROOT}/log/$HA_ALIAS.log
                fi
             else
+	        if [[ "$HOSTIDX" -ne 0 ]]; then
+                   wait4peer
+                fi
                 su informix -c "${INFORMIXDIR}/bin/oninit -vy" 
                 tail -f  ${DATA_ROOT}/log/$HA_ALIAS.log
             fi
