@@ -75,7 +75,7 @@ export TERM=xterm
    . /etc/profile.d/informix.sh
    chown informix:informix /etc/profile.d/informix.sh
    chmod 644 /etc/profile.d/informix.sh
-   chown informix:informix ${INFORMIXDIR}/etc/sqlhosts
+   #chown informix:informix ${INFORMIXDIR}/etc/sqlhosts
    touch ${INFORMIXDIR}/etc/authfile
    chown root:informix ${INFORMIXDIR}/etc/authfile
    chmod 660 ${INFORMIXDIR}/etc/authfile
