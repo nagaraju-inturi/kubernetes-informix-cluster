@@ -9,7 +9,7 @@ RUN yum -y update && yum -y install libaio sysstat libgcc libstdc compat-libstdc
 RUN /usr/sbin/groupadd -g 102 -f informix
 RUN ["/usr/sbin/useradd", "-m", "-g 102", "-u 200", "informix"]
 RUN /bin/bash -c 'echo "informix:changeme" | /usr/sbin/chpasswd'
-ADD iif.12.10.tar /opt/ibm/informix/
+ADD IIF.14.10.tar /opt/ibm/informix/
 ADD bundle.properties /tmp/bundle.properties
 RUN /opt/ibm/informix/ids_install -i silent -f /tmp/bundle.properties
 RUN /bin/bash -c 'chown informix:informix /opt/ibm/data/'
@@ -17,7 +17,7 @@ RUN /bin/bash -c '/bin/rm -rf /opt/ibm/informix/ids_install /opt/ibm/informix/IB
 
 USER informix
 RUN /bin/bash -c 'cp /opt/ibm/informix//etc/onconfig.std /opt/ibm/informix//etc/onconfig'
-RUN /bin/bash -c 'cp /opt/ibm/informix//etc/sqlhosts.std /opt/ibm/informix//etc/sqlhosts'
+#RUN /bin/bash -c 'cp /opt/ibm/informix//etc/sqlhosts.std /opt/ibm/informix//etc/sqlhosts'
 ADD chkinformix.sh /opt/ibm/
 ADD chk4live.sh /opt/ibm/
 
