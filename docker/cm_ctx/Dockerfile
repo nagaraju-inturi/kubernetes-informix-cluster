@@ -7,7 +7,7 @@ RUN yum -y update && yum -y install libaio sysstat libgcc libstdc compat-libstdc
 RUN /usr/sbin/groupadd -g 102 -f informix
 RUN ["/usr/sbin/useradd", "-m", "-g 102", "-u 200", "informix"]
 RUN /bin/bash -c 'echo "informix:changeme" | /usr/sbin/chpasswd'
-ADD clientsdk.4.10.tar /opt/ibm/informix/
+ADD clientsdk.4.50.tar /opt/ibm/informix/
 ADD response.txt /tmp/response.txt
 RUN /opt/ibm/informix/installclientsdk  -i SILENT -f /tmp/response.txt
 
